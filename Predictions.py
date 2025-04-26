@@ -2,22 +2,9 @@ import pandas as pd
 import os
 import numpy as np
 
-# Topics and their respective URLs (replace with actual URLs)
-topics = {
-    "Global Warming": "https://example.com/global-warming-data",
-    "Nitrogen Oxide Emissions Air Pollution": "https://example.com/air-pollution-data",
-    "Carbon Monoxide Emissions Air Pollution": "https://example.com/sea-pollution-data",
-    "Black Carbon Emissions Air Pollution": "https://example.com/ozone-layer-data",
-    "Poverty": "https://example.com/poverty-data",
-    "End World Hunger": "https://example.com/world-hunger-data",
-    "Aids": "https://example.com/aids-data",
-    "Lung Cancer": "https://example.com/cancer-data",
-    "Malaria": "https://example.com/malaria-data",
-    "Life Expectancy": "https://example.com/life-expectancy-data",
-    "Access to Healthcare": "https://example.com/healthcare-data",
-    "Access to Clean Water": "https://example.com/clean-water-data",
-    "Microplastics in Human Body": "https://example.com/microplastics-data",
-}
+topics = ["Global Warming", "Nitrogen Oxide Emissions Air Pollution", "Carbon Monoxide Emissions Air Pollution", 
+          "Black Carbon Emissions Air Pollution", "Poverty", "End World Hunger", "Aids", "Tuberculosis", "Malaria", 
+          "Life Expectancy", "Access to Healthcare", "Access to Clean Water", "Microplastics in Human Body"]
 
 regressionMap = {}
 
@@ -53,7 +40,26 @@ def main():
     regressionMap.update({"World Hunger": np.polyfit(X, y, 1)})
     # percentage of population undernourished
 
-    
+    df = pd.read_csv("data/HIV.csv")
+    X = df["Year"].values
+    y = df["Prevalence"].values
+    regressionMap.update({"HIV": np.polyfit(X, y, 1)})  
+    #Adults (15-49) prevalence (%)
+
+    df = pd.read_csv("data/incidence-of-tuberculosis-sdgs.csv")
+    df = df[df["Entity"] == "World"]
+    X = df["Year"].values
+    y = df["Estimated incidence of all forms of tuberculosis"].values
+    regressionMap.update({"Tuberculosis": np.polyfit(X, y, 1)})
+    #New cases of all forms of tuberculosis per 1,000 population at risk
+
+    df = pd.read_csv("data/incidence-of-malaria.csv")
+    df = df[df["Entity"] == "World"]
+    X = df["Year"].values
+    y = df["Incidence of malaria (per 1,000 population at risk)"].values
+    regressionMap.update({"Malaria": np.polyfit(X, y, 1)})
+    #Incidences of malaria (per 1,000 population at risk)
+
 
 if __name__ == "__main__":
     main()
