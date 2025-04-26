@@ -5,18 +5,15 @@ import numpy as np
 # Topics and their respective URLs (replace with actual URLs)
 topics = {
     "Global Warming": "https://example.com/global-warming-data",
-    "Air Pollution": "https://example.com/air-pollution-data",
-    "Sea Pollution": "https://example.com/sea-pollution-data",
-    "Ozone Layer": "https://example.com/ozone-layer-data",
-    "Nuclear Deescalation": "https://example.com/nuclear-deescalation-data",
+    "Nitrogen Oxide Emissions Air Pollution": "https://example.com/air-pollution-data",
+    "Carbon Monoxide Emissions Air Pollution": "https://example.com/sea-pollution-data",
+    "Black Carbon Emissions Air Pollution": "https://example.com/ozone-layer-data",
     "Poverty": "https://example.com/poverty-data",
     "End World Hunger": "https://example.com/world-hunger-data",
-    "Diseases": "https://example.com/diseases-data",
     "Aids": "https://example.com/aids-data",
-    "Cancer": "https://example.com/cancer-data",
+    "Lung Cancer": "https://example.com/cancer-data",
     "Malaria": "https://example.com/malaria-data",
     "Life Expectancy": "https://example.com/life-expectancy-data",
-    "Gender Equality": "https://example.com/gender-equality-data",
     "Access to Healthcare": "https://example.com/healthcare-data",
     "Access to Clean Water": "https://example.com/clean-water-data",
     "Microplastics in Human Body": "https://example.com/microplastics-data",
@@ -29,11 +26,34 @@ def main():
     df  = pd.read_csv("data/BetterGlobalTemperatures.csv")
     X = df["Year"].values
     y = df["Temperature"].values
-    m, b = np.polyfit(X, y, 1)
-    regressionMap.update({"Global Warming": (m, b)})
+    regressionMap.update({"Global Warming": np.polyfit(X, y, 2)})
+    # temperature in Celsius average per year
+
+    df = pd.read_csv("data/AirPollution.csv")
+    X = df["Year"].values
+    y1 = df["Nitrogen oxides emissions from all sectors"].values
+    y2 = df["Carbon monoxide emissions from all sectors"].values
+    y3 = df["Black carbon emissions from all sectors"].values
+    regressionMap.update({
+        "Nitrogen Air Pollution": np.polyfit(X, y1, 2),
+        "Carbon Monoxide Air Pollution": np.polyfit(X, y2, 2),
+        "Black Carbon Air Pollution": np.polyfit(X, y3, 2)
+    })
+    #emissions in tons per year
+
+    df = pd.read_csv("data/Poverty.csv")
+    X = df.columns.values[1:].astype(int)
+    y = df.iloc[0].values[1:].astype(float)
+    regressionMap.update({"Poverty": np.polyfit(X, y, 1)})
+    #poverty headcount rate in percentage of total population (below $6.85 per day)
+
+    df = pd.read_csv("data/WorldHunger.csv")
+    X = df["Year"].values
+    y = df["percent_hunger"].values
+    regressionMap.update({"World Hunger": np.polyfit(X, y, 1)})
+    # percentage of population undernourished
 
     
-
 
 if __name__ == "__main__":
     main()
