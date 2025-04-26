@@ -1,0 +1,21 @@
+/* filepath: c:\Users\helen\Downloads\hackthonNME\client\src\styles\ProgressBar.css */
+.progress-bar-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px; 
+    justify-content: center;
+}
+
+.progress-bar-container {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+}
+
+.progress-bar-filled {
+    background-color: #76c7c0;
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+}
