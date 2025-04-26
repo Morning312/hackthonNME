@@ -1,35 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-
-# Function to scrape data from a given URL
-def scrape_data(url, parser="html.parser"):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, parser)
-        return soup
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data from {url}: {e}")
-        return None
-
-# Example function to scrape data for a specific topic
-def scrape_environment_data():
-    url = "https://example.com/environment-data"  # Replace with a real URL
-    soup = scrape_data(url)
-    if soup:
-        # Extract data (this will vary based on the website structure)
-        data = []
-        table = soup.find("table")  # Assuming data is in a table
-        if table:
-            rows = table.find_all("tr")
-            for row in rows:
-                cols = row.find_all("td")
-                data.append([col.text.strip() for col in cols])
-        # Convert to DataFrame
-        df = pd.DataFrame(data, columns=["Year", "Metric", "Value"])
-        return df
-    return None
+import os
+import numpy as np
 
 # Topics and their respective URLs (replace with actual URLs)
 topics = {
@@ -51,16 +24,35 @@ topics = {
     "Microplastics in Human Body": "https://example.com/microplastics-data",
 }
 
+regressionMap = {}
+
 # Main function to scrape data for all topics
 def main():
-    for topic, url in topics.items():
-        print(f"Scraping data for {topic}...")
-        soup = scrape_data(url)
-        if soup:
-            # Process and save data (customize based on website structure)
-            print(f"Data for {topic} scraped successfully!")
-        else:
-            print(f"Failed to scrape data for {topic}.")
+    df  = pd.read_csv("data/BetterGlobalTemperatures.csv")
+    X = df["Year"].values
+    y = df["Temperature"].values
+    m, b = np.polyfit(X, y, 1)
+    regressionMap.update({"Global Warming": (m, b)})
+
+    
+
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+# new_df = pd.DataFrame(columns=["Year", "Temperature"])
+    # for index, row in df.iterrows(): 
+    #     if index % 12 == 0:
+    #         sum = 0
+    #         for i in range(12):
+    #             sum+=df.iloc[index+i]["LandAverageTemperatureCelsius"]
+    #         sum = sum / 12
+    #         new_df.loc[int(index/12)] = [df.iloc[index]["dt"][:4], sum]
+    # new_df.to_csv("data/BetterGlobalTemperatures.csv")
