@@ -22,3 +22,5 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, progress }) =
         </div>
     );
 };
+
+export default Card;
