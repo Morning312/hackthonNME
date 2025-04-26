@@ -1,0 +1,14 @@
+.top {
+    display: flex;
+    flex-direction: row;
+}
+
+.middle {
+    display: flex;
+    flex-direction: column; 
+    padding: 10px; 
+}
+.bottom {
+    display: flex;
+    flex-direction: column;
+}
