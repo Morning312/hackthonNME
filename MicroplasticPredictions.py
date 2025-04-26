@@ -36,3 +36,5 @@ for i in range(2000, 2100):
     years.append(i)
 future_years = pd.DataFrame({'Year': years})
 future_predictions = model.predict(future_years.values.reshape(-1, 1))
+
+print(future_predictions)
