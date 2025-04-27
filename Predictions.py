@@ -13,8 +13,8 @@ topics = {
     "Aids": "https://example.com/aids-data",
     "Lung Cancer": "https://example.com/cancer-data",
     "Malaria": "https://example.com/malaria-data",
+    "Tuberculosis": "https://example.com/tuberculosis-data",
     "Life Expectancy": "https://example.com/life-expectancy-data",
-    "Access to Healthcare": "https://example.com/healthcare-data",
     "Access to Clean Water": "https://example.com/clean-water-data",
     "Microplastics in Human Body": "https://example.com/microplastics-data",
 }
@@ -53,14 +53,32 @@ def main():
     regressionMap.update({"World Hunger": np.polyfit(X, y, 1)})
     # percentage of population undernourished
 
+    df  = pd.read_csv("data/incidence-of-tuberculosis-sdgs.csv")
+    df = df = df[df['Entity'] == 'World']
+    X = df["Year"].values
+    y = df["Estimated incidence of all forms of tuberculosis"].values
+    regressionMap.update({"Tuberculosis": np.polyfit(X, y, 2)})
+    # tuberculosis incidence
+
+    df  = pd.read_csv("data/Marine_Microplastics.csv")
+    X = pd.to_datetime(df['Date'], format='mixed').dt.year.values
+    y = df['Measurement'].values
+    regressionMap.update({"Microplastics": np.polyfit(X, y, 2)})
+    # marine microplastics
+    
+    df  = pd.read_csv("data/proportion-using-safely-managed-drinking-water.csv")
+    df = df = df[df['Entity'] == 'World']
+    X = df["Year"].values
+    y = df["Share of the population using safely managed drinking water services"].values
+    regressionMap.update({"Clean Water": np.polyfit(X, y, 2)})
+    # clean water access
+
+    print(regressionMap)
+
     
 
 if __name__ == "__main__":
     main()
-
-
-
-
 
 
 
