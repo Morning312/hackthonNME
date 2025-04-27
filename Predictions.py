@@ -60,6 +60,13 @@ def main():
     regressionMap.update({"Malaria": np.polyfit(X, y, 1)})
     #Incidences of malaria (per 1,000 population at risk)
 
+    df = pd.read_csv("data/life-expectancy.csv")
+    df = df[df["Entity"] == "World"]
+    X = df["Year"].values
+    y = df["Period life expectancy at birth - Sex: total - Age: 0"]
+    regressionMap.update({"Life Expectancy": np.polyfit(X, y, 1)})
+    #Life Expectancy at birth
+
 
 if __name__ == "__main__":
     main()
