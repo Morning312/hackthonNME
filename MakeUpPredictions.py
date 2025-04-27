@@ -27,9 +27,10 @@ def predictCovid(year):
         return 0
     elif year <= 2100:
         return 2*(year-2068)
-    elif year <= 
+    elif year <= 2120:
+        return 64+(year-2100)
     else:
-        return 10
+        return 84
 
 def predictMarsLanding(year):
     if year <= 2025:
@@ -54,25 +55,42 @@ def predictQuantumComputers(year):
         return 100
 
 def predictTeleportation(year):
-    pass
+    if year <= 2050:
+        return 0
+    return (year - 2050)*0.1
+    
 
 def predictTimeTravel(year):
-    pass
+    if year <= 2100:
+        return 0
+    return (year - 2100) * 0.05
 
 def predictAlienContact(year):
-    pass
+    if year <= 2025:
+        return 0
+    elif year <= 2100:
+        return (year - 2025) * 0.5
+    else:
+        return 37.5 + (year - 2100) * 0.125
 
 def predictNuclearApocalypse(year):
-    pass
+    if year <= 2025:
+        return 0
+    return min(100, (year - 2025)^2 * 0.001)
+    
 
 def predictZombieApocalypse(year):
-    pass
+    if year <= 2025:
+        return 0
+    else:
+        return (year-2025) * 0.001
 
 def predictMeteorImpact(year):
-    pass
+   pass
+
 
 def predictAGITakeover(year):
-    return predictAGI(year) + 2
+    return predictAGI(year-2) 
 
 def predictCovid(year):
     if (year == 2069):
@@ -81,7 +99,7 @@ def predictCovid(year):
         return 0
 
 def predictEvanMarriage(year):
-    if (year == 2069):
+    if (year >= 2069):
         return 1
     else:
         return 0
@@ -98,7 +116,9 @@ def predictEdwinMidlifeCrisis(year):
        return 0 
 
 def predictOCamlDomination(year):
-    pass
+    if year <= 2025:
+        return 0
+    return 100 #evan uses OCaml, so it will dominate the world
 
 def predictBrainrotAnimals(year):
     pass
@@ -143,8 +163,3 @@ def predict(topic, year):
         predictGTAVIRelease(year)
     else:
         raise ValueError(f"Unknown topic: {topic}")
-
-    
-
-if __name__ == "__main__":
-    main()

@@ -96,20 +96,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-# new_df = pd.DataFrame(columns=["Year", "Temperature"])
-    # for index, row in df.iterrows(): 
-    #     if index % 12 == 0:
-    #         sum = 0
-    #         for i in range(12):
-    #             sum+=df.iloc[index+i]["LandAverageTemperatureCelsius"]
-    #         sum = sum / 12
-    #         new_df.loc[int(index/12)] = [df.iloc[index]["dt"][:4], sum]
-    # new_df.to_csv("data/BetterGlobalTemperatures.csv")
