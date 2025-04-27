@@ -58,16 +58,14 @@ def main():
     X = pd.to_datetime(df['Date'], format='mixed').dt.year.values
     y = df['Measurement'].values
     regressionMap.update({"Microplastics": np.polyfit(X, y, 3)})
-    # marine microplastics
+    # Density of plastic per meter cubed
     
     df  = pd.read_csv("data/proportion-using-safely-managed-drinking-water.csv")
     df = df = df[df['Entity'] == 'World']
     X = df["Year"].values
     y = df["Share of the population using safely managed drinking water services"].values
     regressionMap.update({"Clean Water": np.polyfit(X, y, 3)})
-    # clean water access
-
-    print(regressionMap)
+    # Percentage of global population with access to safe drinking water
 
     df = pd.read_csv("data/HIV.csv")
     X = df["Year"].values
