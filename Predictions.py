@@ -2,9 +2,9 @@ import pandas as pd
 import os
 import numpy as np
 
-topics = ["Global Warming", "Nitrogen Oxide Emissions Air Pollution", "Carbon Monoxide Emissions Air Pollution", 
-          "Black Carbon Emissions Air Pollution", "Poverty", "End World Hunger", "Aids", "Tuberculosis", "Malaria", 
-          "Life Expectancy", "Access to Healthcare", "Access to Clean Water", "Microplastics in Human Body"]
+topics = ["Global Warming", "Nitrogen Air Pollution", "Carbon Monoxide Air Pollution", 
+          "Black Carbon Air Pollution", "Poverty", "World Hunger", "Microplastics", 
+          "Clean Water", "HIV", "Tuberculosis", "Malaria", "Life Expectancy"]
 
 regressionMap = {}
 
@@ -54,13 +54,6 @@ def main():
     regressionMap.update({"World Hunger": np.polyfit(X, y, 1)})
     # percentage of population undernourished
 
-    df  = pd.read_csv("data/incidence-of-tuberculosis-sdgs.csv")
-    df = df = df[df['Entity'] == 'World']
-    X = df["Year"].values
-    y = df["Estimated incidence of all forms of tuberculosis"].values
-    regressionMap.update({"Tuberculosis": np.polyfit(X, y, 3)})
-    # tuberculosis incidence
-
     df  = pd.read_csv("data/Marine_Microplastics.csv")
     X = pd.to_datetime(df['Date'], format='mixed').dt.year.values
     y = df['Measurement'].values
@@ -102,7 +95,6 @@ def main():
     y = df["Period life expectancy at birth - Sex: total - Age: 0"]
     regressionMap.update({"Life Expectancy": np.polyfit(X, y, 1)})
     #Life Expectancy at birth
-
 
 if __name__ == "__main__":
     main()
