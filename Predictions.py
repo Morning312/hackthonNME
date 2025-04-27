@@ -13,7 +13,7 @@ def main():
     df  = pd.read_csv("data/BetterGlobalTemperatures.csv")
     X = df["Year"].values
     y = df["Temperature"].values
-    regressionMap.update({"Global Warming": np.polyfit(X, y, 2)})
+    regressionMap.update({"Global Warming": np.polyfit(X, y, 3)})
     # temperature in Celsius average per year
 
     df = pd.read_csv("data/AirPollution.csv")
@@ -22,9 +22,9 @@ def main():
     y2 = df["Carbon monoxide emissions from all sectors"].values
     y3 = df["Black carbon emissions from all sectors"].values
     regressionMap.update({
-        "Nitrogen Air Pollution": np.polyfit(X, y1, 2),
-        "Carbon Monoxide Air Pollution": np.polyfit(X, y2, 2),
-        "Black Carbon Air Pollution": np.polyfit(X, y3, 2)
+        "Nitrogen Air Pollution": np.polyfit(X, y1, 3),
+        "Carbon Monoxide Air Pollution": np.polyfit(X, y2, 3),
+        "Black Carbon Air Pollution": np.polyfit(X, y3, 3)
     })
     #emissions in tons per year
 
@@ -39,6 +39,28 @@ def main():
     y = df["percent_hunger"].values
     regressionMap.update({"World Hunger": np.polyfit(X, y, 1)})
     # percentage of population undernourished
+
+    df  = pd.read_csv("data/incidence-of-tuberculosis-sdgs.csv")
+    df = df = df[df['Entity'] == 'World']
+    X = df["Year"].values
+    y = df["Estimated incidence of all forms of tuberculosis"].values
+    regressionMap.update({"Tuberculosis": np.polyfit(X, y, 3)})
+    # tuberculosis incidence
+
+    df  = pd.read_csv("data/Marine_Microplastics.csv")
+    X = pd.to_datetime(df['Date'], format='mixed').dt.year.values
+    y = df['Measurement'].values
+    regressionMap.update({"Microplastics": np.polyfit(X, y, 3)})
+    # marine microplastics
+    
+    df  = pd.read_csv("data/proportion-using-safely-managed-drinking-water.csv")
+    df = df = df[df['Entity'] == 'World']
+    X = df["Year"].values
+    y = df["Share of the population using safely managed drinking water services"].values
+    regressionMap.update({"Clean Water": np.polyfit(X, y, 3)})
+    # clean water access
+
+    print(regressionMap)
 
     df = pd.read_csv("data/HIV.csv")
     X = df["Year"].values
@@ -70,10 +92,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
 
 
 
