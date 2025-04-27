@@ -86,7 +86,10 @@ def predictZombieApocalypse(year):
         return (year-2025) * 0.001
 
 def predictMeteorImpact(year):
-   pass
+    if year <= 2031:
+        return 0
+    else:
+        return min(100, (year - 2031) / 10)
 
 
 def predictAGITakeover(year):
@@ -157,8 +160,6 @@ def predict(topic, year):
         predictEdwinMidlifeCrisis(year)
     elif topic == "OCaml Domination":
         predictOCamlDomination(year)
-    elif topic == "Brainrot Animals":
-        predictBrainrotAnimals(year)
     elif topic == "GTA VI Release":
         predictGTAVIRelease(year)
     else:
