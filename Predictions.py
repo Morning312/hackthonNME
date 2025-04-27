@@ -8,12 +8,26 @@ topics = ["Global Warming", "Nitrogen Oxide Emissions Air Pollution", "Carbon Mo
 
 regressionMap = {}
 
+def makePrediction(topic, year, min, max):
+    if topic not in regressionMap:
+        raise ValueError(f"No regression data available for topic: {topic}")
+    
+    coefficients = regressionMap[topic]
+    prediction = np.polyval(coefficients, year)
+
+    if prediction < min:
+        prediction = min
+    elif prediction > max:
+        prediction = max
+    
+    return prediction
+
 # Main function to scrape data for all topics
 def main():
     df  = pd.read_csv("data/BetterGlobalTemperatures.csv")
     X = df["Year"].values
     y = df["Temperature"].values
-    regressionMap.update({"Global Warming": np.polyfit(X, y, 2)})
+    regressionMap.update({"Global Warming": np.polyfit(X, y, 3)})
     # temperature in Celsius average per year
 
     df = pd.read_csv("data/AirPollution.csv")
@@ -22,9 +36,9 @@ def main():
     y2 = df["Carbon monoxide emissions from all sectors"].values
     y3 = df["Black carbon emissions from all sectors"].values
     regressionMap.update({
-        "Nitrogen Air Pollution": np.polyfit(X, y1, 2),
-        "Carbon Monoxide Air Pollution": np.polyfit(X, y2, 2),
-        "Black Carbon Air Pollution": np.polyfit(X, y3, 2)
+        "Nitrogen Air Pollution": np.polyfit(X, y1, 3),
+        "Carbon Monoxide Air Pollution": np.polyfit(X, y2, 3),
+        "Black Carbon Air Pollution": np.polyfit(X, y3, 3)
     })
     #emissions in tons per year
 
@@ -60,23 +74,5 @@ def main():
     regressionMap.update({"Malaria": np.polyfit(X, y, 1)})
     #Incidences of malaria (per 1,000 population at risk)
 
-
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-# new_df = pd.DataFrame(columns=["Year", "Temperature"])
-    # for index, row in df.iterrows(): 
-    #     if index % 12 == 0:
-    #         sum = 0
-    #         for i in range(12):
-    #             sum+=df.iloc[index+i]["LandAverageTemperatureCelsius"]
-    #         sum = sum / 12
-    #         new_df.loc[int(index/12)] = [df.iloc[index]["dt"][:4], sum]
-    # new_df.to_csv("data/BetterGlobalTemperatures.csv")
