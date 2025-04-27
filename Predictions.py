@@ -8,6 +8,20 @@ topics = ["Global Warming", "Nitrogen Oxide Emissions Air Pollution", "Carbon Mo
 
 regressionMap = {}
 
+def makePrediction(topic, year, min, max):
+    if topic not in regressionMap:
+        raise ValueError(f"No regression data available for topic: {topic}")
+    
+    coefficients = regressionMap[topic]
+    prediction = np.polyval(coefficients, year)
+
+    if prediction < min:
+        prediction = min
+    elif prediction > max:
+        prediction = max
+    
+    return prediction
+
 # Main function to scrape data for all topics
 def main():
     df  = pd.read_csv("data/BetterGlobalTemperatures.csv")
@@ -92,6 +106,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
 
 
 
