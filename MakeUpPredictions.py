@@ -86,10 +86,10 @@ def predictZombieApocalypse(year):
         return (year-2025) * 0.001
 
 def predictMeteorImpact(year):
-    if year <= 2031:
+    if year <= 2025:
         return 0
     else:
-        return min(100, (year - 2031) / 10)
+        return min(100, (year - 2025) / 100)
 
 
 def predictAGITakeover(year):
@@ -123,11 +123,10 @@ def predictOCamlDomination(year):
         return 0
     return 100 #evan uses OCaml, so it will dominate the world
 
-def predictBrainrotAnimals(year):
-    pass
-
 def predictGTAVIRelease(year):
-    return 50
+    if year < 2025:
+        return 0
+    return (1-(0.5)^(year-2024))*100 # GTA VI will be released in 2025, and then every year it will be 50% more likely to be released
     
 def predict(topic, year):
     if topic == "Covid-69":
