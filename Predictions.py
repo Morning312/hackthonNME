@@ -74,8 +74,6 @@ def main():
     regressionMap.update({"Clean Water": np.polyfit(X, y, 3)})
     # Percentage of global population with access to safe drinking water
 
-    print(regressionMap)
-
     df = pd.read_csv("data/HIV.csv")
     X = df["Year"].values
     y = df["Prevalence"].values
@@ -102,7 +100,6 @@ def main():
     y = df["Period life expectancy at birth - Sex: total - Age: 0"]
     regressionMap.update({"Life Expectancy": np.polyfit(X, y, 1)})
     #Life Expectancy at birth
-
 
 if __name__ == "__main__":
     main()
