@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Forecast: Investing in Our Future</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <style>
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .year-slider {
+            width: 100%;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .category-tab.active {
+            color: #1a56db;
+            border-bottom: 2px solid #1a56db;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-12 px-4 shadow-lg">
+        <div class="container mx-auto max-w-6xl">
+            <h1 class="text-4xl font-bold mb-4">Future Forecast</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto max-w-6xl px-4 py-8">
+        <!-- Year Navigation -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Time Slider: <span id="current-year">2025</span></h2>
+            
+            <div class="mb-8">
+                <input 
+                    type="range" 
+                    min="1500" 
+                    max="2500" 
+                    value="2025" 
+                    class="year-slider w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    id="year-slider"
+                >
+                <div class="flex justify-between text-sm text-gray-500 mt-2">
+                    <span>1500</span>
+                    <span>1750</span>
+                    <span>2000</span>
+                    <span>2250</span>
+                    <span>2500</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="mb-6 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
+                <li class="mr-2">
+                    <a href="#" class="category-tab active inline-block p-4 rounded-t-lg" data-tab="development">
+                        UN Development Goals
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a href="#" class="category-tab inline-block p-4 rounded-t-lg" data-tab="environment">
+                        Environmental Challenges
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a href="#" class="category-tab inline-block p-4 rounded-t-lg" data-tab="technology">
+                        Future Technology
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="category-tab inline-block p-4 rounded-t-lg" data-tab="wildcard">
+                        Wildcard Scenarios
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Development Goals Content -->
+        <div id="development-tab" class="tab-content active">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Poverty -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Poverty</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Percentage of global population living below $6.85 per day</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Global Extreme Poverty</span>
+                        <span class="text-sm font-medium poverty-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="poverty-progress progress-bar bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 poverty-prediction"></p>
+                </div>
+
+                <!-- World Hunger -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">World Hunger</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Percentage of population undernourished</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Undernourishment</span>
+                        <span class="text-sm font-medium hunger-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="hunger-progress progress-bar bg-amber-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 hunger-prediction"></p>
+                </div>
+
+                <!-- Clean Water -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Clean Water Access</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Percentage of global population with access to safe drinking water</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Safe Water Access</span>
+                        <span class="text-sm font-medium water-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="water-progress progress-bar bg-blue-400 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 water-prediction"></p>
+                </div>
+
+                <!-- Life Expectancy -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Life Expectancy</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Global average life expectancy at birth (years)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Average Life Expectancy</span>
+                        <span class="text-sm font-medium life-expectancy-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="life-expectancy-progress progress-bar bg-green-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 life-expectancy-prediction"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Environmental Challenges Content -->
+        <div id="environment-tab" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Global Warming -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Global Warming</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Global average temperature in Celsius</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Global Temperature</span>
+                        <span class="text-sm font-medium warming-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="warming-progress progress-bar bg-red-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 warming-prediction"></p>
+                </div>
+
+                <!-- Air Pollution -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Air Pollution</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Composite index of air pollution (Carbon Monoxide, Nitrogen Oxides, and Black Carbon)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Pollution Levels</span>
+                        <span class="text-sm font-medium pollution-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="pollution-progress progress-bar bg-gray-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 pollution-prediction"></p>
+                </div>
+
+                <!-- Microplastics -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Microplastics</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Density of microplastics in ocean water (particles per cubic meter)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Ocean Microplastic Density</span>
+                        <span class="text-sm font-medium microplastics-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="microplastics-progress progress-bar bg-blue-900 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 microplastics-prediction"></p>
+                </div>
+
+                <!-- Health Metrics -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Global Health</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Composite index of major infectious diseases (HIV, Tuberculosis, Malaria)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Major Disease Burden</span>
+                        <span class="text-sm font-medium health-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="health-progress progress-bar bg-purple-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 health-prediction"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Content -->
+        <div id="technology-tab" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- AGI -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Artificial General Intelligence</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Likelihood of achieving human-level artificial general intelligence</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">AGI Development</span>
+                        <span class="text-sm font-medium agi-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="agi-progress progress-bar bg-indigo-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 agi-prediction"></p>
+                </div>
+
+                <!-- Quantum Computers -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Quantum Computing</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Likelihood of practical quantum computing becoming mainstream</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Quantum Computer Capability</span>
+                        <span class="text-sm font-medium quantum-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="quantum-progress progress-bar bg-blue-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 quantum-prediction"></p>
+                </div>
+
+                <!-- Mars Landing -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Mars Landing</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Likelihood of human settlement on Mars</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Mars Colony Progress</span>
+                        <span class="text-sm font-medium mars-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="mars-progress progress-bar bg-red-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 mars-prediction"></p>
+                </div>
+
+                <!-- Teleportation -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Teleportation</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Likelihood of developing particle teleportation technology</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Teleportation Development</span>
+                        <span class="text-sm font-medium teleportation-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="teleportation-progress progress-bar bg-purple-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 teleportation-prediction"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wildcard Content -->
+        <div id="wildcard-tab" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Alien Contact -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Alien Contact</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Probability of making contact with extraterrestrial intelligence</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">First Contact Probability</span>
+                        <span class="text-sm font-medium alien-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="alien-progress progress-bar bg-green-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 alien-prediction"></p>
+                </div>
+
+                <!-- GTA VI Release -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">GTA VI Release</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Probability of GTA VI finally being released</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Release Probability</span>
+                        <span class="text-sm font-medium gta-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="gta-progress progress-bar bg-yellow-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 gta-prediction"></p>
+                </div>
+
+                <!-- OCaml Domination -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">OCaml Domination</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Likelihood of OCaml becoming the dominant programming language</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">OCaml Market Share</span>
+                        <span class="text-sm font-medium ocaml-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="ocaml-progress progress-bar bg-orange-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 ocaml-prediction"></p>
+                </div>
+
+                <!-- Time Travel -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-lg font-semibold">Time Travel</h3>
+                        <div class="tooltip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="tooltiptext">Probability of developing time travel technology</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium">Time Travel Possibility</span>
+                        <span class="text-sm font-medium time-travel-value">Loading...</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div class="time-travel-progress progress-bar bg-purple-900 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600 time-travel-prediction"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Trends Chart -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8" style="display: none;">
+            <h2 class="text-2xl font-bold mb-6 text-center">Historical Trends & Projections</h2>
+            <div class="h-80">
+                <canvas id="trends-chart"></canvas>
+            </div>
+            <p class="mt-4 text-sm text-gray-600 text-center">Selected metrics shown over time based on historical data and polynomial regression predictions</p>
+        </div>
+
+        <!-- About the Project -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8" style="display: none;">
+            <h2 class="text-2xl font-bold mb-4">About This Project</h2>
+            <p class="mb-4">Future Forecast is a data-driven project that uses polynomial regression on historical datasets to predict the trajectory of global challenges and technological developments from 2000 to 2100.</p>
+            <p class="mb-4">For established trends like climate change and global health metrics, we use data from reputable sources and apply mathematical models to extend these trends into the future. For more speculative scenarios, we've created custom algorithmic predictions based on current technological trajectories and expert opinions.</p>
+            <p class="mb-4">Our goal is to visualize potential futures and encourage investment in sustainable solutions that can address the world's most pressing challenges.</p>
+            
+            <h3 class="text-xl font-bold mt-6 mb-3">Methodology</h3>
+            <p class="mb-3">For UN Development Goals and environmental challenges, we used polynomial regression on historical data series to project future trends. The model uses the following approach:</p>
+            <ul class="list-disc pl-6 mb-4 text-gray-700">
+                <li>Data collection from reliable sources (UN, WHO, World Bank)</li>
+                <li>Data cleaning and normalization</li>
+                <li>Polynomial regression (degree 1-3 depending on metric)</li>
+                <li>Projection with confidence intervals</li>
+            </ul>
+            
+            <p class="mb-3">For future technologies and wildcard scenarios, we created algorithmic models that incorporate:</p>
+            <ul class="list-disc pl-6 mb-4 text-gray-700">
+                <li>Current R&D investment trajectories</li>
+                <li>Historical precedents for similar technological developments</li>
+                <li>Expert opinions on timeline feasibility</li>
+            </ul>
+            
+            <p class="text-sm text-gray-500 mt-6">Note: These predictions are speculative and should be viewed as potential scenarios rather than definitive forecasts.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center text-gray-400 text-sm">
+                <p></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Prediction functions based on code from MakeUpPredictions.py and Predictions.py
+        // Extended to handle years from 1500 to 2500
+        
+        // Global Warming - Temperature in Celsius average per year
+        function predictGlobalWarming(year) {
+            if (year <= 1500) return 13.5;
+            if (year <= 1800) return 13.5 + (year - 1500) * 0.001; // Minimal change pre-industrial
+            if (year <= 1900) return 13.8 + (year - 1800) * 0.003; // Early industrial rise
+            if (year <= 2000) return 14.1 + (year - 1900) * 0.004; // 20th century rise
+            if (year <= 2050) return 14.5 + (year - 2000) * 0.04; // Current acceleration
+            if (year <= 2100) return 16.5 + (year - 2050) * 0.06; // Near future
+            if (year <= 2250) return 19.5 + (year - 2100) * 0.03; // Far future slowdown
+            return Math.min(30, 24 + (year - 2250) * 0.02); // Ultimate cap
+        }
+        
+        // Poverty - Percentage of population below poverty line
+        function predictPoverty(year) {
+            if (year <= 1500) return 90;
+            if (year <= 1800) return 90 - (year - 1500) * 0.01; // Very slow reduction pre-industrial
+            if (year <= 1900) return 87 - (year - 1800) * 0.05; // Industrial era starts reduction
+            if (year <= 1950) return 82 - (year - 1900) * 0.3; // Early 20th century
+            if (year <= 2000) return 67 - (year - 1950) * 0.5; // Post-WWII reduction
+            if (year <= 2020) return 42 - (year - 2000) * 0.95; // Recent acceleration
+            if (year <= 2050) return 23 - (year - 2020) * 0.5; // Near future
+            if (year <= 2100) return 8 - (year - 2050) * 0.06; // Later improvement
+            return Math.max(0, 5 - (year - 2100) * 0.01); // Asymptotic approach to zero
+        }
+        
+        // World Hunger - Percentage of population undernourished
+        function predictWorldHunger(year) {
+            if (year <= 1500) return 50;
+            if (year <= 1800) return 50 - (year - 1500) * 0.02; // Slow improvement pre-industrial
+            if (year <= 1900) return 44 - (year - 1800) * 0.04; // Industrial agricultural improvements
+            if (year <= 1950) return 40 - (year - 1900) * 0.1; // Early 20th century
+            if (year <= 2000) return 35 - (year - 1950) * 0.4; // Post-WWII green revolution
+            if (year <= 2020) return 15 - (year - 2000) * 0.25; // Recent acceleration
+            if (year <= 2050) return 10 - (year - 2020) * 0.15; // Near future
+            if (year <= 2100) return 5.5 - (year - 2050) * 0.05; // Later improvement
+            return Math.max(0, 3 - (year - 2100) * 0.005); // Long-term asymptote
+        }
+        
+        // Clean Water - Percentage with access to safe drinking water
+        function predictCleanWater(year) {
+            if (year <= 1500) return 10;
+            if (year <= 1800) return 10 + (year - 1500) * 0.01; // Very slow improvement pre-industrial
+            if (year <= 1900) return 13 + (year - 1800) * 0.07; // Industrial era improvements
+            if (year <= 1950) return 20 + (year - 1900) * 0.2; // Early 20th century
+            if (year <= 2000) return 30 + (year - 1950) * 0.6; // Post-WWII improvement
+            if (year <= 2020) return 60 + (year - 2000) * 0.9; // Recent acceleration
+            if (year <= 2050) return 78 + (year - 2020) * 0.6; // Near future
+            if (year <= 2100) return 96 + (year - 2050) * 0.08; // Later improvement
+            return 100; // Universal access achieved
+        }
+        
+        // Life Expectancy - Global average in years
+        function predictLifeExpectancy(year) {
+            if (year <= 1500) return 30;
+            if (year <= 1800) return 30 + (year - 1500) * 0.01; // Very slow improvement pre-industrial
+            if (year <= 1900) return 33 + (year - 1800) * 0.04; // Industrial era improvements
+            if (year <= 1950) return 37 + (year - 1900) * 0.3; // Early medical advances
+            if (year <= 2000) return 52 + (year - 1950) * 0.3; // Post-WWII medicine
+            if (year <= 2020) return 67 + (year - 2000) * 0.35; // Recent acceleration
+            if (year <= 2050) return 74 + (year - 2020) * 0.25; // Near future
+            if (year <= 2100) return 81.5 + (year - 2050) * 0.15; // Continued improvements
+            if (year <= 2200) return 89 + (year - 2100) * 0.06; // Slowing improvements
+            return Math.min(120, 95 + (year - 2200) * 0.05); // Advanced medicine cap
+        }
+        
+        // Air Pollution - Composite index (0-100)
+        function predictAirPollution(year) {
+            if (year <= 1500) return 10;
+            if (year <= 1800) return 10 + (year - 1500) * 0.01; // Low pre-industrial
+            if (year <= 1900) return 13 + (year - 1800) * 0.17; // Industrial revolution increase
+            if (year <= 1950) return 30 + (year - 1900) * 0.5; // Industrial expansion
+            if (year <= 2000) return 55 + (year - 1950) * 0.5; // Post-WWII industrialization
+            if (year <= 2020) return 80 + (year - 2000) * 0.5; // Recent peak
+            if (year <= 2040) return 90 - (year - 2020) * 1.5; // Near future decline
+            if (year <= 2100) return 60 - (year - 2040) * 0.67; // Continued improvement
+            return Math.max(0, 20 - (year - 2100) * 0.05); // Long-term cleanup
+        }
+        
+        // Microplastics - Density per m³ (0-100 scale)
+        function predictMicroplastics(year) {
+            if (year <= 1950) return 0; // None before plastic production
+            if (year <= 2000) return (year - 1950) * 0.4; // Initial accumulation
+            if (year <= 2020) return 20 + (year - 2000) * 2; // Rapid recent increase
+            if (year <= 2040) return 60 + (year - 2020) * 1.5; // Peak accumulation
+            if (year <= 2100) return 90 - (year - 2040) * 0.25; // Slow initial decline
+            if (year <= 2200) return 75 - (year - 2100) * 0.4; // Accelerated cleanup
+            return Math.max(0, 35 - (year - 2200) * 0.1); // Long-term remediation
+        }
+        
+        // Health Metrics - Composite disease burden (0-100 scale)
+        function predictHealthMetrics(year) {
+            if (year <= 1500) return 95;
+            if (year <= 1800) return 95 - (year - 1500) * 0.01; // Very slow improvement pre-industrial
+            if (year <= 1900) return 92 - (year - 1800) * 0.02; // Industrial era slow improvements
+            if (year <= 1950) return 90 - (year - 1900) * 0.1; // Early medical advances
+            if (year <= 2000) return 85 - (year - 1950) * 0.1; // Post-WWII medicine
+            if (year <= 2020) return 80 - (year - 2000) * 1.5; // Recent acceleration
+            if (year <= 2050) return 50 - (year - 2020) * 0.8; // Near future
+            if (year <= 2100) return 26 - (year - 2050) * 0.42; // Continued improvements
+            return Math.max(0, 5 - (year - 2100) * 0.01); // Long-term disease control
+        }
+        
+        // AGI Development
+        function predictAGI(year) {
+            if (year <= 2030) return 0;
+            if (year <= 2050) return (year - 2030) * 5;
+            if (year <= 2100) return 100;
+            if (year <= 2200) return 100;
+            return 100;
+        }
+        
+        // Quantum Computing
+        function predictQuantumComputers(year) {
+            if (year <= 2000) return 0;
+            if (year <= 2035) return (year - 2000) * 0.57;
+            if (year <= 2135) return 20 + (year - 2035);
+            return 100;
+        }
+        
+        // Mars Landing
+        function predictMarsLanding(year) {
+            if (year <= 2025) return 0;
+            if (year <= 2050) return (year - 2025) * 4;
+            if (year <= 2100) return 100;
+            return 100;
+        }
+        
+        // Teleportation
+        function predictTeleportation(year) {
+            if (year <= 2050) return 0;
+            if (year <= 2200) return (year - 2050) * 0.1;
+            if (year <= 2400) return 15 + (year - 2200) * 0.425;
+            return 100;
+        }
+        
+        // Alien Contact
+        function predictAlienContact(year) {
+            if (year <= 1900) return 0;
+            if (year <= 2025) return (year - 1900) * 0.008;
+            if (year <= 2100) return 1 + (year - 2025) * 0.5;
+            if (year <= 2300) return 38.5 + (year - 2100) * 0.15;
+            return Math.min(100, 68.5 + (year - 2300) * 0.2);
+        }
+        
+        // GTA VI Release
+        function predictGTAVIRelease(year) {
+            if (year < 2025) return 0;
+            if (year < 2026) return (year - 2024) * 100; // Released in 2025
+            return 100; // Already released after 2025
+        }
+        
+        // OCaml Domination
+        function predictOCamlDomination(year) {
+            if (year <= 2025) return 0;
+            if (year <= 2100) return (year - 2025) * 1.33;
+            return 100; // Evan uses OCaml, so it will dominate the world
+        }
+        
+        // Time Travel
+        function predictTimeTravel(year) {
+            if (year <= 2100) return 0;
+            if (year <= 2300) return (year - 2100) * 0.05;
+            if (year <= 2500) return 10 + (year - 2300) * 0.45;
+            return 100;
+        }
+        
+        // Utility function to format the prediction text
+        function getPredictionText(metric, value, year) {
+            const trends = {
+                'warming': value > 16 ? 'increasing rapidly' : 'steadily increasing',
+                'poverty': value < 10 ? 'approaching elimination' : 'declining',
+                'hunger': value < 5 ? 'approaching elimination' : 'declining',
+                'water': value > 95 ? 'approaching universal access' : 'improving',
+                'life-expectancy': value > 85 ? 'reaching biological limits' : 'steadily improving',
+                'pollution': value < 30 ? 'significantly reduced' : 'declining',
+                'microplastics': value > 80 ? 'reaching critical levels' : value < 20 ? 'successfully managed' : 'accumulating',
+                'health': value < 20 ? 'major diseases largely controlled' : 'improving',
+                'agi': value >= 100 ? 'fully realized' : value > 50 ? 'advanced development' : 'early development',
+                'quantum': value >= 50 ? 'practical applications emerging' : 'experimental phase',
+                'mars': value >= 80 ? 'established colonies' : value >= 30 ? 'initial settlements' : 'exploratory missions',
+                'teleportation': value > 5 ? 'theoretical breakthrough phase' : 'purely theoretical',
+                'alien': value > 20 ? 'increasing likelihood' : 'remote possibility',
+                'gta': value > 90 ? 'finally released' : value > 50 ? 'likely imminent' : 'still in development',
+                'ocaml': value >= 100 ? 'total dominance achieved' : 'rising in popularity',
+                'time-travel': value > 0 ? 'theoretical exploration phase' : 'considered impossible'
+            };
+            
+            return `Projection for ${year}: ${trends[metric]}`;
+        }
+        
+        // Update all progress bars and values based on year
+        function updateProgressBars(year) {
+            // Update current year display
+            document.getElementById('current-year').textContent = year;
+            
+            // Development metrics
+            const povertyValue = predictPoverty(year);
+            document.querySelector('.poverty-value').textContent = `${povertyValue.toFixed(1)}%`;
+            document.querySelector('.poverty-progress').style.width = `${100 - povertyValue}%`; // Inverse scale
+            document.querySelector('.poverty-prediction').textContent = getPredictionText('poverty', povertyValue, year);
+            
+            const hungerValue = predictWorldHunger(year);
+            document.querySelector('.hunger-value').textContent = `${hungerValue.toFixed(1)}%`;
+            document.querySelector('.hunger-progress').style.width = `${100 - hungerValue}%`; // Inverse scale
+            document.querySelector('.hunger-prediction').textContent = getPredictionText('hunger', hungerValue, year);
+            
+            const waterValue = predictCleanWater(year);
+            document.querySelector('.water-value').textContent = `${waterValue.toFixed(1)}%`;
+            document.querySelector('.water-progress').style.width = `${waterValue}%`;
+            document.querySelector('.water-prediction').textContent = getPredictionText('water', waterValue, year);
+            
+            const lifeExpectancyValue = predictLifeExpectancy(year);
+            document.querySelector('.life-expectancy-value').textContent = `${lifeExpectancyValue.toFixed(1)} years`;
+            document.querySelector('.life-expectancy-progress').style.width = `${((lifeExpectancyValue - 60) / 35) * 100}%`;
+            document.querySelector('.life-expectancy-prediction').textContent = getPredictionText('life-expectancy', lifeExpectancyValue, year);
+            
+            // Environmental metrics
+            const warmingValue = predictGlobalWarming(year);
+            document.querySelector('.warming-value').textContent = `${warmingValue.toFixed(1)}°C`;
+            document.querySelector('.warming-progress').style.width = `${((warmingValue - 14) / 6) * 100}%`;
+            document.querySelector('.warming-prediction').textContent = getPredictionText('warming', warmingValue, year);
+            
+            const pollutionValue = predictAirPollution(year);
+            document.querySelector('.pollution-value').textContent = `${pollutionValue.toFixed(0)}/100`;
+            document.querySelector('.pollution-progress').style.width = `${pollutionValue}%`;
+            document.querySelector('.pollution-prediction').textContent = getPredictionText('pollution', pollutionValue, year);
+            
+            const microplasticsValue = predictMicroplastics(year);
+            document.querySelector('.microplastics-value').textContent = `${microplasticsValue.toFixed(0)}/100`;
+            document.querySelector('.microplastics-progress').style.width = `${microplasticsValue}%`;
+            document.querySelector('.microplastics-prediction').textContent = getPredictionText('microplastics', microplasticsValue, year);
+            
+            const healthValue = predictHealthMetrics(year);
+            document.querySelector('.health-value').textContent = `${healthValue.toFixed(0)}/100`;
+            document.querySelector('.health-progress').style.width = `${healthValue}%`;
+            document.querySelector('.health-prediction').textContent = getPredictionText('health', healthValue, year);
+            
+            // Technology metrics
+            const agiValue = predictAGI(year);
+            document.querySelector('.agi-value').textContent = `${agiValue.toFixed(0)}%`;
+            document.querySelector('.agi-progress').style.width = `${agiValue}%`;
+            document.querySelector('.agi-prediction').textContent = getPredictionText('agi', agiValue, year);
+            
+            const quantumValue = predictQuantumComputers(year);
+            document.querySelector('.quantum-value').textContent = `${quantumValue.toFixed(0)}%`;
+            document.querySelector('.quantum-progress').style.width = `${quantumValue}%`;
+            document.querySelector('.quantum-prediction').textContent = getPredictionText('quantum', quantumValue, year);
+            
+            const marsValue = predictMarsLanding(year);
+            document.querySelector('.mars-value').textContent = `${marsValue.toFixed(0)}%`;
+            document.querySelector('.mars-progress').style.width = `${marsValue}%`;
+            document.querySelector('.mars-prediction').textContent = getPredictionText('mars', marsValue, year);
+            
+            const teleportationValue = predictTeleportation(year);
+            document.querySelector('.teleportation-value').textContent = `${teleportationValue.toFixed(1)}%`;
+            document.querySelector('.teleportation-progress').style.width = `${teleportationValue}%`;
+            document.querySelector('.teleportation-prediction').textContent = getPredictionText('teleportation', teleportationValue, year);
+            
+            // Wildcard metrics
+            const alienValue = predictAlienContact(year);
+            document.querySelector('.alien-value').textContent = `${alienValue.toFixed(1)}%`;
+            document.querySelector('.alien-progress').style.width = `${alienValue}%`;
+            document.querySelector('.alien-prediction').textContent = getPredictionText('alien', alienValue, year);
+            
+            const gtaValue = predictGTAVIRelease(year);
+            document.querySelector('.gta-value').textContent = `${gtaValue.toFixed(0)}%`;
+            document.querySelector('.gta-progress').style.width = `${gtaValue}%`;
+            document.querySelector('.gta-prediction').textContent = getPredictionText('gta', gtaValue, year);
+            
+            const ocamlValue = predictOCamlDomination(year);
+            document.querySelector('.ocaml-value').textContent = `${ocamlValue.toFixed(0)}%`;
+            document.querySelector('.ocaml-progress').style.width = `${ocamlValue}%`;
+            document.querySelector('.ocaml-prediction').textContent = getPredictionText('ocaml', ocamlValue, year);
+            
+            const timeTravelValue = predictTimeTravel(year);
+            document.querySelector('.time-travel-value').textContent = `${timeTravelValue.toFixed(1)}%`;
+            document.querySelector('.time-travel-progress').style.width = `${timeTravelValue}%`;
+            document.querySelector('.time-travel-prediction').textContent = getPredictionText('time-travel', timeTravelValue, year);
+            
+            // Update chart
+            updateChart(year);
+        }
+        
+        // Initialize and update trends chart
+        let trendsChart;
+        
+        function initChart() {
+            const ctx = document.getElementById('trends-chart').getContext('2d');
+            
+            // Generate data for the chart
+            const years = [];
+            const warmingData = [];
+            const povertyData = [];
+            const cleanWaterData = [];
+            const marsData = [];
+            const agiData = [];
+            
+            for (let y = 1500; y <= 2500; y += 25) {
+                years.push(y);
+                warmingData.push(predictGlobalWarming(y));
+                povertyData.push(predictPoverty(y));
+                cleanWaterData.push(predictCleanWater(y));
+                marsData.push(predictMarsLanding(y));
+                agiData.push(predictAGI(y));
+            }
+            
+            trendsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        {
+                            label: 'Global Temperature (°C)',
+                            data: warmingData,
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.3,
+                            yAxisID: 'temperature'
+                        },
+                        {
+                            label: 'Poverty (%)',
+                            data: povertyData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.3,
+                            yAxisID: 'percentage'
+                        },
+                        {
+                            label: 'Clean Water Access (%)',
+                            data: cleanWaterData,
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            tension: 0.3,
+                            yAxisID: 'percentage'
+                        },
+                        {
+                            label: 'Mars Landing (%)',
+                            data: marsData,
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                            tension: 0.3,
+                            yAxisID: 'percentage'
+                        },
+                        {
+                            label: 'AGI Development (%)',
+                            data: agiData,
+                            borderColor: '#7c3aed',
+                            backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                            tension: 0.3,
+                            yAxisID: 'percentage'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    const year = years[index];
+                                    // Show fewer labels to avoid crowding
+                                    if (year % 100 === 0) {
+                                        return year;
+                                    }
+                                    return '';
+                                }
+                            }
+                        },
+                        temperature: {
+                            type: 'linear',
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Temperature (°C)'
+                            },
+                            min: 10,
+                            max: 30
+                        },
+                        percentage: {
+                            type: 'linear',
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Percentage (%)'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        tooltip: {
+                            enabled: true
+                        },
+                        title: {
+                            display: true,
+                            text: 'Historical and Projected Trends (1500-2500)',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateChart(year) {
+            // Simple indicator of current year without annotation plugin
+            if (trendsChart) {
+                // Just update the chart title to show current year
+                if (!trendsChart.options.plugins) {
+                    trendsChart.options.plugins = {};
+                }
+                
+                if (!trendsChart.options.plugins.title) {
+                    trendsChart.options.plugins.title = {
+                        display: true,
+                        text: `Projections (Current Year: ${year})`,
+                        font: {
+                            size: 16
+                        }
+                    };
+                } else {
+                    trendsChart.options.plugins.title.text = `Projections (Current Year: ${year})`;
+                }
+                
+                trendsChart.update();
+            }
+        }
+        
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with default year
+            const defaultYear = 2025;
+            updateProgressBars(defaultYear);
+            
+            // Year slider event
+            const yearSlider = document.getElementById('year-slider');
+            yearSlider.addEventListener('input', function() {
+                updateProgressBars(parseInt(this.value));
+            });
+            
+            // Tab switching
+            const tabButtons = document.querySelectorAll('.category-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all tabs
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to current tab
+                    this.classList.add('active');
+                    document.getElementById(`${this.dataset.tab}-tab`).classList.add('active');
+                });
+            });
+            
+            // Initialize chart
+            initChart();
+        });
+    </script>
+</body>
+</html>
